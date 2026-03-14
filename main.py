@@ -5,8 +5,8 @@ def main():
     df = pd.read_csv("TEST.csv")
 
     df = df.rename(columns={
-        "TA (Sys)": "TA_Sys",
-        "TA (Dia)": "TA_Dia",
+        "TA (Sys)": "TAS",
+        "TA (Dia)": "TAD",
         "Médicament": "Medicament",
         "Dose (ml)": "Dose_ml",
         "Concentration (mg/mL)": "Concentration_mg_ml",

@@ -13,7 +13,7 @@ DOSE_RULES = {
     "Atropine": {
         "Bolus": {"min": 0.5, "max": 3}
     },
-    "Bicarbonate de sodium": {
+    "Bicarbonnate de sodium": {
         "Bolus": {"min": 40, "max": 100}
     },
     "Chlorure de calcium": {
