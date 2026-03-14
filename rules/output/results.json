@@ -1,0 +1,27 @@
+{
+    "1": {
+        "Heure": "10:08",
+        "Medicament": "Rocuronium",
+        "score": 3,
+        "status": "Erreur critique",
+        "alerts": [
+            "Rocuronium administré malgré hypoxémie/dépression respiratoire (SAT = 75.0%, FR = 4.0)"
+        ]
+    },
+    "2": {
+        "Heure": "14:16",
+        "Medicament": "Bicarbonnate de sodium",
+        "score": 3,
+        "status": "Erreur critique",
+        "alerts": [
+            "Dose trop élevée pour Bicarbonnate de sodium (Bolus) : 4200.00 mg (attendu 40–100 mg)"
+        ]
+    },
+    "3": {
+        "Heure": "13:00",
+        "Medicament": "Épinéphrine",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    }
+}

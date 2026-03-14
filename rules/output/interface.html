@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEDIQ - Monitoring en direct</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="status-normal">
+  <div class="app">
+    <header class="topbar">
+      <div>
+        <h1>MEDIQ - Monitoring en direct</h1>
+        <p>Surveillance des administrations et alertes en temps réel</p>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn">Démarrer</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn">Réinitialiser</button>
+
+        <label for="speedSelect">Vitesse</label>
+        <select id="speedSelect">
+          <option value="3000">Lente (3s)</option>
+          <option value="2000" selected>Moyenne (2s)</option>
+          <option value="1000">Rapide (1s)</option>
+        </select>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="patient-panel">
+        <div class="patient-header">
+          <div>
+            <p class="section-label">PATIENT ACTUEL</p>
+            <h2 id="patientName">En attente...</h2>
+          </div>
+          <div id="globalStatusBadge" class="status-badge normal">Normal</div>
+        </div>
+
+        <div class="patient-grid">
+          <div class="metric-box">
+            <span class="metric-label">ID</span>
+            <span class="metric-value" id="metricId">--</span>
+          </div>
+
+          <div class="metric-box">
+            <span class="metric-label">Heure</span>
+            <span class="metric-value" id="metricHeure">--:--</span>
+          </div>
+
+          <div class="metric-box">
+            <span class="metric-label">FC</span>
+            <span class="metric-value" id="metricFc">--</span>
+          </div>
+
+          <div class="metric-box">
+            <span class="metric-label">TA</span>
+            <span class="metric-value" id="metricTa">-- / --</span>
+          </div>
+
+          <div class="metric-box">
+            <span class="metric-label">FR</span>
+            <span class="metric-value" id="metricFr">--</span>
+          </div>
+
+          <div class="metric-box">
+            <span class="metric-label">SAT</span>
+            <span class="metric-value" id="metricSat">--</span>
+          </div>
+
+          <div class="metric-box">
+            <span class="metric-label">Temp</span>
+            <span class="metric-value" id="metricTemp">--</span>
+          </div>
+
+          <div class="metric-box highlight">
+            <span class="metric-label">Médicament</span>
+            <span class="metric-value" id="metricMed">--</span>
+          </div>
+
+          <div class="metric-box highlight">
+            <span class="metric-label">Administration</span>
+            <span class="metric-value" id="metricAdmin">--</span>
+          </div>
+
+          <div class="metric-box highlight">
+            <span class="metric-label">Score</span>
+            <span class="metric-value" id="metricScore">0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="alert-panel">
+        <div class="alert-header">
+          <p class="section-label">ALERTE PRINCIPALE</p>
+          <h3 id="alertTitle">Aucune alerte détectée</h3>
+        </div>
+
+        <div id="alertContent" class="alert-content safe">
+          En attente de données...
+        </div>
+      </section>
+
+      <section class="timeline-panel">
+        <div class="timeline-header">
+          <p class="section-label">ACTIVITÉ EN DIRECT</p>
+          <h3>Chronologie des administrations</h3>
+        </div>
+
+        <div id="timelineContainer" class="timeline-container"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

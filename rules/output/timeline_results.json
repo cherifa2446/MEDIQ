@@ -1,0 +1,197 @@
+[
+    {
+        "ID": 1,
+        "Heure": "10:00",
+        "Medicament": "Naloxone",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 1,
+        "Heure": "10:02",
+        "Medicament": "Naloxone",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 1,
+        "Heure": "10:05",
+        "Medicament": "Naloxone",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 1,
+        "Heure": "10:07",
+        "Medicament": "Atropine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 1,
+        "Heure": "10:08",
+        "Medicament": "Rocuronium",
+        "Administration": "Bolus",
+        "score": 3,
+        "status": "Erreur critique",
+        "alerts": [
+            "Rocuronium administré malgré hypoxémie/dépression respiratoire (SAT = 75.0%, FR = 4.0)"
+        ]
+    },
+    {
+        "ID": 1,
+        "Heure": "10:09",
+        "Medicament": "Adénosine",
+        "Administration": "Bolus",
+        "score": 2,
+        "status": "Inhabituel",
+        "alerts": [
+            "Dose trop faible pour Adénosine (Bolus) : 1.00 mg (attendu 6–18 mg)"
+        ]
+    },
+    {
+        "ID": 1,
+        "Heure": "10:12",
+        "Medicament": "Épinéphrine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 1,
+        "Heure": "10:14",
+        "Medicament": "Épinéphrine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 1,
+        "Heure": "10:16",
+        "Medicament": "Épinéphrine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:00",
+        "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:03",
+        "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:06",
+        "Medicament": "Épinéphrine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:10",
+        "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:00",
+        "Medicament": "Soluté physiologique",
+        "Administration": "Perfusion",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:03",
+        "Medicament": "Phényléphrine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:06",
+        "Medicament": "Phényléphrine",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:09",
+        "Medicament": "Norépinéphrine",
+        "Administration": "Perfusion",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:12",
+        "Medicament": "Insuline",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:13",
+        "Medicament": "Dextrose",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:16",
+        "Medicament": "Chlorure de calcium",
+        "Administration": "Bolus",
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 2,
+        "Heure": "14:16",
+        "Medicament": "Bicarbonnate de sodium",
+        "Administration": "Bolus",
+        "score": 3,
+        "status": "Erreur critique",
+        "alerts": [
+            "Dose trop élevée pour Bicarbonnate de sodium (Bolus) : 4200.00 mg (attendu 40–100 mg)"
+        ]
+    }
+]

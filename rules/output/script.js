@@ -1,0 +1,221 @@
+const startBtn = document.getElementById("startBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const resetBtn = document.getElementById("resetBtn");
+const speedSelect = document.getElementById("speedSelect");
+
+const patientName = document.getElementById("patientName");
+const globalStatusBadge = document.getElementById("globalStatusBadge");
+
+const metricId = document.getElementById("metricId");
+const metricHeure = document.getElementById("metricHeure");
+const metricFc = document.getElementById("metricFc");
+const metricTa = document.getElementById("metricTa");
+const metricFr = document.getElementById("metricFr");
+const metricSat = document.getElementById("metricSat");
+const metricTemp = document.getElementById("metricTemp");
+const metricMed = document.getElementById("metricMed");
+const metricAdmin = document.getElementById("metricAdmin");
+const metricScore = document.getElementById("metricScore");
+
+const alertTitle = document.getElementById("alertTitle");
+const alertContent = document.getElementById("alertContent");
+const timelineContainer = document.getElementById("timelineContainer");
+
+let timelineData = [];
+let currentIndex = 0;
+let intervalId = null;
+let currentSpeed = parseInt(speedSelect.value, 10);
+
+async function loadTimelineData() {
+  try {
+    const response = await fetch("./timeline_results.json");
+
+    if (!response.ok) {
+      throw new Error("Impossible de charger timeline_results.json");
+    }
+
+    timelineData = await response.json();
+
+    if (!Array.isArray(timelineData)) {
+      timelineData = [];
+    }
+
+    if (timelineData.length === 0) {
+      timelineContainer.innerHTML = `<div class="empty-timeline">Aucune donnée trouvée.</div>`;
+    }
+  } catch (error) {
+    console.error(error);
+    timelineData = [];
+    timelineContainer.innerHTML = `
+      <div class="empty-timeline">
+        Erreur de chargement du fichier timeline_results.json
+      </div>
+    `;
+  }
+}
+
+function normalizeStatus(status) {
+  const s = (status || "").toLowerCase();
+
+  if (s.includes("critique")) return "critique";
+  if (s.includes("inhabituel")) return "inhabituel";
+  return "normal";
+}
+
+function setPageStatus(status) {
+  document.body.classList.remove("status-normal", "status-inhabituel", "status-critique");
+  document.body.classList.add(`status-${status}`);
+}
+
+function setBadgeStatus(status, label) {
+  globalStatusBadge.className = `status-badge ${status}`;
+  globalStatusBadge.textContent = label;
+}
+
+function setAlertBox(status, alerts) {
+  alertContent.classList.remove("safe", "warning", "danger");
+
+  if (!alerts || alerts.length === 0) {
+    alertTitle.textContent = "Aucune alerte détectée";
+    alertContent.classList.add("safe");
+    alertContent.textContent = "Administration conforme. Aucun comportement suspect détecté.";
+    return;
+  }
+
+  if (status === "critique") {
+    alertTitle.textContent = "ALERTE CRITIQUE";
+    alertContent.classList.add("danger");
+  } else {
+    alertTitle.textContent = "Alerte inhabituelle";
+    alertContent.classList.add("warning");
+  }
+
+  alertContent.innerHTML = alerts.map(alert => `<div>• ${alert}</div>`).join("");
+}
+
+function updatePatientPanel(item) {
+  const status = normalizeStatus(item.status);
+
+  patientName.textContent = `Patient ${item.ID}`;
+  metricId.textContent = item.ID ?? "--";
+  metricHeure.textContent = item.Heure ?? "--:--";
+  metricFc.textContent = item.FC ?? "--";
+  metricTa.textContent = `${item.TA_Sys ?? "--"} / ${item.TA_Dia ?? "--"}`;
+  metricFr.textContent = item.FR ?? "--";
+  metricSat.textContent = item.SAT ?? "--";
+  metricTemp.textContent = item.Temp ?? "--";
+  metricMed.textContent = item.Medicament ?? "--";
+  metricAdmin.textContent = item.Administration ?? "--";
+  metricScore.textContent = item.score ?? 0;
+
+  setPageStatus(status);
+  setBadgeStatus(status, item.status || "Normal");
+  setAlertBox(status, item.alerts);
+}
+
+function createTimelineItem(item) {
+  const status = normalizeStatus(item.status);
+  const firstAlert = item.alerts && item.alerts.length > 0
+    ? item.alerts[0]
+    : "Aucune alerte";
+
+  const div = document.createElement("div");
+  div.className = `timeline-item ${status} new-entry`;
+
+  div.innerHTML = `
+    <div class="timeline-time">${item.Heure ?? "--:--"}</div>
+    <div class="timeline-patient">Patient ${item.ID ?? "--"}</div>
+    <div class="timeline-main">
+      <div class="timeline-med">${item.Medicament ?? "--"}</div>
+      <div class="timeline-admin">Administration : ${item.Administration ?? "--"}</div>
+      <div class="timeline-alert">${firstAlert}</div>
+    </div>
+    <div class="timeline-score">Score ${item.score ?? 0}</div>
+  `;
+
+  setTimeout(() => {
+    div.classList.remove("new-entry");
+  }, 700);
+
+  return div;
+}
+
+function playNextStep() {
+  if (currentIndex >= timelineData.length) {
+    stopSimulation();
+    return;
+  }
+
+  const item = timelineData[currentIndex];
+  updatePatientPanel(item);
+
+  const timelineItem = createTimelineItem(item);
+  timelineContainer.prepend(timelineItem);
+
+  currentIndex++;
+}
+
+function startSimulation() {
+  if (timelineData.length === 0) return;
+  if (intervalId !== null) return;
+
+  intervalId = setInterval(playNextStep, currentSpeed);
+}
+
+function stopSimulation() {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+}
+
+function resetSimulation() {
+  stopSimulation();
+  currentIndex = 0;
+
+  patientName.textContent = "En attente...";
+  metricId.textContent = "--";
+  metricHeure.textContent = "--:--";
+  metricFc.textContent = "--";
+  metricTa.textContent = "-- / --";
+  metricFr.textContent = "--";
+  metricSat.textContent = "--";
+  metricTemp.textContent = "--";
+  metricMed.textContent = "--";
+  metricAdmin.textContent = "--";
+  metricScore.textContent = "0";
+
+  alertTitle.textContent = "Aucune alerte détectée";
+  alertContent.className = "alert-content safe";
+  alertContent.textContent = "En attente de données...";
+
+  setBadgeStatus("normal", "Normal");
+  setPageStatus("normal");
+
+  timelineContainer.innerHTML = `<div class="empty-timeline">Historique réinitialisé.</div>`;
+}
+
+startBtn.addEventListener("click", startSimulation);
+pauseBtn.addEventListener("click", stopSimulation);
+
+resetBtn.addEventListener("click", () => {
+  resetSimulation();
+
+  if (timelineData.length > 0) {
+    timelineContainer.innerHTML = "";
+  }
+});
+
+speedSelect.addEventListener("change", () => {
+  currentSpeed = parseInt(speedSelect.value, 10);
+
+  if (intervalId !== null) {
+    stopSimulation();
+    startSimulation();
+  }
+});
+
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadTimelineData();
+  setPageStatus("normal");
+});
