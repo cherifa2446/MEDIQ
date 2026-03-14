@@ -70,10 +70,10 @@
         "FR": 4,
         "SAT": 75,
         "Temp": 36.4,
-        "score": 3,
-        "status": "Erreur critique",
+        "score": 2,
+        "status": "Inhabituel",
         "alerts": [
-            "Rocuronium administré malgré hypoxémie/dépression respiratoire (SAT = 75.0%, FR = 4.0)"
+            "Rocuronium donné avec état respiratoire déjà critique (FR = 4.0, SAT = 75.0%)"
         ]
     },
     {
@@ -87,10 +87,11 @@
         "FR": 18,
         "SAT": 81,
         "Temp": 36.4,
-        "score": 2,
-        "status": "Inhabituel",
+        "score": 6,
+        "status": "Erreur critique",
         "alerts": [
-            "Dose trop faible pour Adénosine (Bolus) : 1.00 mg (attendu 6–18 mg)"
+            "Dose possiblement trop faible pour Adénosine (Bolus) : 1.00 mg (référence: 6 mg puis 12-18 mg IV)",
+            "Adénosine contre-indiquée si FC < 50 bpm (FC = 38.0)"
         ]
     },
     {
@@ -134,66 +135,6 @@
         "FR": 18,
         "SAT": 94,
         "Temp": 36.4,
-        "score": 0,
-        "status": "Normal",
-        "alerts": []
-    },
-    {
-        "ID": 3,
-        "Heure": "13:00",
-        "Medicament": "Épinéphrine",
-        "Administration": "IM",
-        "FC": 128,
-        "TA_Sys": 72,
-        "TA_Dia": 38,
-        "FR": 30,
-        "SAT": 88,
-        "Temp": 36.9,
-        "score": 0,
-        "status": "Normal",
-        "alerts": []
-    },
-    {
-        "ID": 3,
-        "Heure": "13:03",
-        "Medicament": "Épinéphrine",
-        "Administration": "IM",
-        "FC": 122,
-        "TA_Sys": 78,
-        "TA_Dia": 42,
-        "FR": 28,
-        "SAT": 90,
-        "Temp": 36.9,
-        "score": 0,
-        "status": "Normal",
-        "alerts": []
-    },
-    {
-        "ID": 3,
-        "Heure": "13:06",
-        "Medicament": "Épinéphrine",
-        "Administration": "Bolus",
-        "FC": 112,
-        "TA_Sys": 90,
-        "TA_Dia": 50,
-        "FR": 24,
-        "SAT": 93,
-        "Temp": 36.9,
-        "score": 0,
-        "status": "Normal",
-        "alerts": []
-    },
-    {
-        "ID": 3,
-        "Heure": "13:10",
-        "Medicament": "Épinéphrine",
-        "Administration": "IM",
-        "FC": 98,
-        "TA_Sys": 102,
-        "TA_Dia": 58,
-        "FR": 22,
-        "SAT": 95,
-        "Temp": 37.0,
         "score": 0,
         "status": "Normal",
         "alerts": []
@@ -314,10 +255,68 @@
         "FR": 24,
         "SAT": 94,
         "Temp": 39.1,
-        "score": 3,
-        "status": "Erreur critique",
-        "alerts": [
-            "Dose trop élevée pour Bicarbonnate de sodium (Bolus) : 4200.00 mg (attendu 40–100 mg)"
-        ]
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:00",
+        "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "FC": 128,
+        "TA_Sys": 72,
+        "TA_Dia": 38,
+        "FR": 30,
+        "SAT": 88,
+        "Temp": 36.9,
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:03",
+        "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "FC": 122,
+        "TA_Sys": 78,
+        "TA_Dia": 42,
+        "FR": 28,
+        "SAT": 90,
+        "Temp": 36.9,
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:06",
+        "Medicament": "Épinéphrine",
+        "Administration": "Bolus",
+        "FC": 112,
+        "TA_Sys": 90,
+        "TA_Dia": 50,
+        "FR": 24,
+        "SAT": 93,
+        "Temp": 36.9,
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
+    },
+    {
+        "ID": 3,
+        "Heure": "13:10",
+        "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "FC": 98,
+        "TA_Sys": 102,
+        "TA_Dia": 58,
+        "FR": 22,
+        "SAT": 95,
+        "Temp": 37.0,
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
     }
 ]

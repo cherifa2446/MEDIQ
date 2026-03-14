@@ -34,6 +34,9 @@ async function loadTimelineData() {
     if (!Array.isArray(timelineData)) {
       timelineData = [];
     }
+
+    console.log("Timeline chargée :", timelineData);
+
   } catch (error) {
     console.error(error);
     timelineData = [];
@@ -79,20 +82,33 @@ function setAlertBox(status, alerts) {
   alertContent.innerHTML = alerts.map(alert => `<div>• ${alert}</div>`).join("");
 }
 
+function formatValue(value, suffix = "") {
+  if (value === null || value === undefined || value === "") {
+    return "--";
+  }
+  return `${value}${suffix}`;
+}
+
+function formatTA(sys, dia) {
+  const s = sys ?? "--";
+  const d = dia ?? "--";
+  return `${s} / ${d}`;
+}
+
 function updatePatientPanel(item) {
   const status = normalizeStatus(item.status);
 
-  patientName.textContent = `Patient ${item.ID}`;
-  metricId.textContent = item.ID ?? "--";
-  metricHeure.textContent = item.Heure ?? "--:--";
-  metricFc.textContent = item.FC ?? "--";
-  metricTa.textContent = `${item.TA_Sys ?? "--"} / ${item.TA_Dia ?? "--"}`;
-  metricFr.textContent = item.FR ?? "--";
-  metricSat.textContent = item.SAT ?? "--";
-  metricTemp.textContent = item.Temp ?? "--";
-  metricMed.textContent = item.Medicament ?? "--";
-  metricAdmin.textContent = item.Administration ?? "--";
-  metricScore.textContent = item.score ?? 0;
+  patientName.textContent = `Patient ${item.ID ?? "--"}`;
+  metricId.textContent = formatValue(item.ID);
+  metricHeure.textContent = formatValue(item.Heure);
+  metricFc.textContent = formatValue(item.FC);
+  metricTa.textContent = formatTA(item.TA_Sys, item.TA_Dia);
+  metricFr.textContent = formatValue(item.FR);
+  metricSat.textContent = formatValue(item.SAT);
+  metricTemp.textContent = formatValue(item.Temp);
+  metricMed.textContent = formatValue(item.Medicament);
+  metricAdmin.textContent = formatValue(item.Administration);
+  metricScore.textContent = formatValue(item.score, "");
 
   setBadgeStatus(status, item.status || "Normal");
   setAlertBox(status, item.alerts);
@@ -109,14 +125,25 @@ function createTimelineItem(item) {
   div.className = `timeline-item ${status} new-entry`;
 
   div.innerHTML = `
-    <div class="timeline-time">${item.Heure ?? "--:--"}</div>
-    <div class="timeline-patient">Patient ${item.ID ?? "--"}</div>
+    <div class="timeline-time">${formatValue(item.Heure, "")}</div>
+    <div class="timeline-patient">Patient ${formatValue(item.ID, "")}</div>
+
     <div class="timeline-main">
-      <div class="timeline-med">${item.Medicament ?? "--"}</div>
-      <div class="timeline-admin">Administration : ${item.Administration ?? "--"}</div>
+      <div class="timeline-med">${formatValue(item.Medicament)}</div>
+      <div class="timeline-admin">Administration : ${formatValue(item.Administration)}</div>
+
+      <div class="timeline-vitals">
+        <div>FC : ${formatValue(item.FC)}</div>
+        <div>TA : ${formatTA(item.TA_Sys, item.TA_Dia)}</div>
+        <div>FR : ${formatValue(item.FR)}</div>
+        <div>SAT : ${formatValue(item.SAT)}</div>
+        <div>Temp : ${formatValue(item.Temp)}</div>
+      </div>
+
       <div class="timeline-alert">${firstAlert}</div>
     </div>
-    <div class="timeline-score">Score ${item.score ?? 0}</div>
+
+    <div class="timeline-score">Score ${formatValue(item.score, "")}</div>
   `;
 
   setTimeout(() => {
@@ -145,6 +172,7 @@ function startSimulation() {
   if (timelineData.length === 0) return;
   if (intervalId !== null) return;
 
+  playNextStep();
   intervalId = setInterval(playNextStep, currentSpeed);
 }
 

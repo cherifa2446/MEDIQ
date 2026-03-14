@@ -1,25 +1,48 @@
 {
     "1": {
-        "Heure": "10:08",
-        "Medicament": "Rocuronium",
-        "score": 3,
+        "ID": 1,
+        "Heure": "10:09",
+        "Medicament": "Adénosine",
+        "Administration": "Bolus",
+        "FC": 38,
+        "TA_Sys": 77,
+        "TA_Dia": 44,
+        "FR": 18,
+        "SAT": 81,
+        "Temp": 36.4,
+        "score": 6,
         "status": "Erreur critique",
         "alerts": [
-            "Rocuronium administré malgré hypoxémie/dépression respiratoire (SAT = 75.0%, FR = 4.0)"
+            "Dose possiblement trop faible pour Adénosine (Bolus) : 1.00 mg (référence: 6 mg puis 12-18 mg IV)",
+            "Adénosine contre-indiquée si FC < 50 bpm (FC = 38.0)"
         ]
     },
     "2": {
-        "Heure": "14:16",
-        "Medicament": "Bicarbonnate de sodium",
-        "score": 3,
-        "status": "Erreur critique",
-        "alerts": [
-            "Dose trop élevée pour Bicarbonnate de sodium (Bolus) : 4200.00 mg (attendu 40–100 mg)"
-        ]
+        "ID": 2,
+        "Heure": "14:00",
+        "Medicament": "Soluté physiologique",
+        "Administration": "Perfusion",
+        "FC": 110,
+        "TA_Sys": 84,
+        "TA_Dia": 46,
+        "FR": 28,
+        "SAT": 93,
+        "Temp": 39.3,
+        "score": 0,
+        "status": "Normal",
+        "alerts": []
     },
     "3": {
+        "ID": 3,
         "Heure": "13:00",
         "Medicament": "Épinéphrine",
+        "Administration": "IM",
+        "FC": 128,
+        "TA_Sys": 72,
+        "TA_Dia": 38,
+        "FR": 30,
+        "SAT": 88,
+        "Temp": 36.9,
         "score": 0,
         "status": "Normal",
         "alerts": []
