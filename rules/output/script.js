@@ -115,43 +115,34 @@ function updatePatientPanel(item) {
 }
 
 function createTimelineItem(item) {
-  const status = normalizeStatus(item.status);
-  const firstAlert =
-    item.alerts && item.alerts.length > 0
-      ? item.alerts[0]
-      : "Aucune alerte";
-
-  const div = document.createElement("div");
-  div.className = `timeline-item ${status} new-entry`;
-
-  div.innerHTML = `
-    <div class="timeline-time">${formatValue(item.Heure, "")}</div>
-    <div class="timeline-patient">Patient ${formatValue(item.ID, "")}</div>
-
-    <div class="timeline-main">
-      <div class="timeline-med">${formatValue(item.Medicament)}</div>
-      <div class="timeline-admin">Administration : ${formatValue(item.Administration)}</div>
-
-      <div class="timeline-vitals">
-        <div>FC : ${formatValue(item.FC)}</div>
-        <div>TA : ${formatTA(item.TA_Sys, item.TA_Dia)}</div>
-        <div>FR : ${formatValue(item.FR)}</div>
-        <div>SAT : ${formatValue(item.SAT)}</div>
-        <div>Temp : ${formatValue(item.Temp)}</div>
+    const status = normalizeStatus(item.status);
+    const firstAlert =
+      item.alerts && item.alerts.length > 0
+        ? item.alerts[0]
+        : "Aucune alerte";
+  
+    const div = document.createElement("div");
+    div.className = `timeline-item ${status} new-entry`;
+  
+    div.innerHTML = `
+      <div class="timeline-time">${formatValue(item.Heure, "")}</div>
+      <div class="timeline-patient">Patient ${formatValue(item.ID, "")}</div>
+  
+      <div class="timeline-main">
+        <div class="timeline-med">${formatValue(item.Medicament)}</div>
+        <div class="timeline-admin">Administration : ${formatValue(item.Administration)}</div>
+        <div class="timeline-alert">${firstAlert}</div>
       </div>
-
-      <div class="timeline-alert">${firstAlert}</div>
-    </div>
-
-    <div class="timeline-score">Score ${formatValue(item.score, "")}</div>
-  `;
-
-  setTimeout(() => {
-    div.classList.remove("new-entry");
-  }, 700);
-
-  return div;
-}
+  
+      <div class="timeline-score">Score ${formatValue(item.score, "")}</div>
+    `;
+  
+    setTimeout(() => {
+      div.classList.remove("new-entry");
+    }, 700);
+  
+    return div;
+  }
 
 function playNextStep() {
   if (currentIndex >= timelineData.length) {
