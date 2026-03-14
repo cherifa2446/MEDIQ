@@ -6,28 +6,8 @@
   <title>MEDIQ - Monitoring en direct</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="status-normal">
-  <div class="app">
-    <header class="topbar">
-      <div>
-        <h1>MEDIQ - Monitoring en direct</h1>
-        <p>Surveillance des administrations et alertes en temps réel</p>
-      </div>
-
-      <div class="controls">
-        <button id="startBtn">Démarrer</button>
-        <button id="pauseBtn">Pause</button>
-        <button id="resetBtn">Réinitialiser</button>
-
-        <label for="speedSelect">Vitesse</label>
-        <select id="speedSelect">
-          <option value="3000">Lente (3s)</option>
-          <option value="2000" selected>Moyenne (2s)</option>
-          <option value="1000">Rapide (1s)</option>
-        </select>
-      </div>
-    </header>
-
+<body>
+  <div class="app jury-mode">
     <main class="dashboard">
       <section class="patient-panel">
         <div class="patient-header">
@@ -108,11 +88,13 @@
           <h3>Chronologie des administrations</h3>
         </div>
 
-        <div id="timelineContainer" class="timeline-container"></div>
+        <div id="timelineContainer" class="timeline-container">
+          <div class="empty-timeline">En attente de la simulation...</div>
+        </div>
       </section>
     </main>
-  </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+  </div>
 </body>
 </html>

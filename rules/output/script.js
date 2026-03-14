@@ -1,8 +1,3 @@
-const startBtn = document.getElementById("startBtn");
-const pauseBtn = document.getElementById("pauseBtn");
-const resetBtn = document.getElementById("resetBtn");
-const speedSelect = document.getElementById("speedSelect");
-
 const patientName = document.getElementById("patientName");
 const globalStatusBadge = document.getElementById("globalStatusBadge");
 
@@ -24,7 +19,7 @@ const timelineContainer = document.getElementById("timelineContainer");
 let timelineData = [];
 let currentIndex = 0;
 let intervalId = null;
-let currentSpeed = parseInt(speedSelect.value, 10);
+let currentSpeed = 2000;
 
 async function loadTimelineData() {
   try {
@@ -38,10 +33,6 @@ async function loadTimelineData() {
 
     if (!Array.isArray(timelineData)) {
       timelineData = [];
-    }
-
-    if (timelineData.length === 0) {
-      timelineContainer.innerHTML = `<div class="empty-timeline">Aucune donnée trouvée.</div>`;
     }
   } catch (error) {
     console.error(error);
@@ -60,11 +51,6 @@ function normalizeStatus(status) {
   if (s.includes("critique")) return "critique";
   if (s.includes("inhabituel")) return "inhabituel";
   return "normal";
-}
-
-function setPageStatus(status) {
-  document.body.classList.remove("status-normal", "status-inhabituel", "status-critique");
-  document.body.classList.add(`status-${status}`);
 }
 
 function setBadgeStatus(status, label) {
@@ -108,16 +94,16 @@ function updatePatientPanel(item) {
   metricAdmin.textContent = item.Administration ?? "--";
   metricScore.textContent = item.score ?? 0;
 
-  setPageStatus(status);
   setBadgeStatus(status, item.status || "Normal");
   setAlertBox(status, item.alerts);
 }
 
 function createTimelineItem(item) {
   const status = normalizeStatus(item.status);
-  const firstAlert = item.alerts && item.alerts.length > 0
-    ? item.alerts[0]
-    : "Aucune alerte";
+  const firstAlert =
+    item.alerts && item.alerts.length > 0
+      ? item.alerts[0]
+      : "Aucune alerte";
 
   const div = document.createElement("div");
   div.className = `timeline-item ${status} new-entry`;
@@ -169,53 +155,15 @@ function stopSimulation() {
   }
 }
 
-function resetSimulation() {
-  stopSimulation();
-  currentIndex = 0;
-
-  patientName.textContent = "En attente...";
-  metricId.textContent = "--";
-  metricHeure.textContent = "--:--";
-  metricFc.textContent = "--";
-  metricTa.textContent = "-- / --";
-  metricFr.textContent = "--";
-  metricSat.textContent = "--";
-  metricTemp.textContent = "--";
-  metricMed.textContent = "--";
-  metricAdmin.textContent = "--";
-  metricScore.textContent = "0";
-
-  alertTitle.textContent = "Aucune alerte détectée";
-  alertContent.className = "alert-content safe";
-  alertContent.textContent = "En attente de données...";
-
-  setBadgeStatus("normal", "Normal");
-  setPageStatus("normal");
-
-  timelineContainer.innerHTML = `<div class="empty-timeline">Historique réinitialisé.</div>`;
-}
-
-startBtn.addEventListener("click", startSimulation);
-pauseBtn.addEventListener("click", stopSimulation);
-
-resetBtn.addEventListener("click", () => {
-  resetSimulation();
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadTimelineData();
 
   if (timelineData.length > 0) {
     timelineContainer.innerHTML = "";
-  }
-});
-
-speedSelect.addEventListener("change", () => {
-  currentSpeed = parseInt(speedSelect.value, 10);
-
-  if (intervalId !== null) {
-    stopSimulation();
     startSimulation();
+  } else {
+    timelineContainer.innerHTML = `
+      <div class="empty-timeline">Aucune donnée trouvée.</div>
+    `;
   }
-});
-
-window.addEventListener("DOMContentLoaded", async () => {
-  await loadTimelineData();
-  setPageStatus("normal");
 });

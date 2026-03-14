@@ -107,6 +107,12 @@ def analyze_timeline(df):
             "Heure": row["Heure"],
             "Medicament": med,
             "Administration": admin,
+            "FC": row["FC"],
+            "TA_Sys": row["TA_Sys"],
+            "TA_Dia": row["TA_Dia"],
+            "FR": row["FR"],
+            "SAT": row["SAT"],
+            "Temp": row["Temp"],
             "score": score,
             "status": status,
             "alerts": alerts
