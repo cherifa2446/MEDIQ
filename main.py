@@ -11,6 +11,5 @@ df = df.rename(columns={
     "Volume de perfusion": "Volume_perfusion"
 })
 
-print(df.columns.tolist())
-print()
-print(df.iloc[0])
+for index, row in df.iterrows():
+    print(f"Ligne {index+1} | Patient {row['ID']} | Heure {row['Heure']} | Médicament {row['Medicament']}")
