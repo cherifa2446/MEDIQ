@@ -27,7 +27,7 @@ def load_csv(csv_path: Path) -> pd.DataFrame:
 
 def main():
     try:
-        csv_name = sys.argv[1] if len(sys.argv) > 1 else "TEST.csv"
+        csv_name = sys.argv[1] if len(sys.argv) > 1 else "EVALUATION.csv"
         csv_path = Path(csv_name)
 
         if not csv_path.exists():

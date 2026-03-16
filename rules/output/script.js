@@ -1,3 +1,7 @@
+let criticalAlarm = null;
+let lastAlarmKey = null;
+let audioUnlocked = false;
+
 const patientName = document.getElementById("patientName");
 const globalStatusBadge = document.getElementById("globalStatusBadge");
 
@@ -21,6 +25,54 @@ let currentIndex = 0;
 let intervalId = null;
 let currentSpeed = 2000;
 
+function unlockAudio() {
+  if (!criticalAlarm || audioUnlocked) return;
+
+  criticalAlarm.volume = 1;
+  criticalAlarm.muted = false;
+
+  const playPromise = criticalAlarm.play();
+
+  if (playPromise !== undefined) {
+    playPromise
+      .then(() => {
+        criticalAlarm.pause();
+        criticalAlarm.currentTime = 0;
+        audioUnlocked = true;
+        console.log("Audio débloqué");
+      })
+      .catch((error) => {
+        console.log("Audio encore bloqué :", error);
+      });
+  }
+}
+
+function playCriticalSound(item) {
+    if (!criticalAlarm) {
+      console.log("Audio introuvable");
+      return;
+    }
+  
+    const alarmKey = `${item.ID}-${item.Heure}-${item.score}`;
+  
+    if (lastAlarmKey === alarmKey) return;
+    lastAlarmKey = alarmKey;
+  
+    criticalAlarm.pause();
+    criticalAlarm.currentTime = 0;
+  
+    criticalAlarm.play()
+      .then(() => {
+        setTimeout(() => {
+          criticalAlarm.pause();
+          criticalAlarm.currentTime = 0;
+        }, 3000); // 3 secondes
+      })
+      .catch((error) => {
+        console.log("Lecture audio bloquée par le navigateur :", error);
+      });
+  }
+
 async function loadTimelineData() {
   try {
     const response = await fetch("./timeline_results.json");
@@ -36,7 +88,6 @@ async function loadTimelineData() {
     }
 
     console.log("Timeline chargée :", timelineData);
-
   } catch (error) {
     console.error(error);
     timelineData = [];
@@ -67,7 +118,8 @@ function setAlertBox(status, alerts) {
   if (!alerts || alerts.length === 0) {
     alertTitle.textContent = "Aucune alerte détectée";
     alertContent.classList.add("safe");
-    alertContent.textContent = "Administration conforme. Aucun comportement suspect détecté.";
+    alertContent.textContent =
+      "Administration conforme. Aucun comportement suspect détecté.";
     return;
   }
 
@@ -108,41 +160,41 @@ function updatePatientPanel(item) {
   metricTemp.textContent = formatValue(item.Temp);
   metricMed.textContent = formatValue(item.Medicament);
   metricAdmin.textContent = formatValue(item.Administration);
-  metricScore.textContent = formatValue(item.score, "");
+  metricScore.textContent = formatValue(item.score);
 
   setBadgeStatus(status, item.status || "Normal");
   setAlertBox(status, item.alerts);
 }
 
 function createTimelineItem(item) {
-    const status = normalizeStatus(item.status);
-    const firstAlert =
-      item.alerts && item.alerts.length > 0
-        ? item.alerts[0]
-        : "Aucune alerte";
-  
-    const div = document.createElement("div");
-    div.className = `timeline-item ${status} new-entry`;
-  
-    div.innerHTML = `
-      <div class="timeline-time">${formatValue(item.Heure, "")}</div>
-      <div class="timeline-patient">Patient ${formatValue(item.ID, "")}</div>
-  
-      <div class="timeline-main">
-        <div class="timeline-med">${formatValue(item.Medicament)}</div>
-        <div class="timeline-admin">Administration : ${formatValue(item.Administration)}</div>
-        <div class="timeline-alert">${firstAlert}</div>
-      </div>
-  
-      <div class="timeline-score">Score ${formatValue(item.score, "")}</div>
-    `;
-  
-    setTimeout(() => {
-      div.classList.remove("new-entry");
-    }, 700);
-  
-    return div;
-  }
+  const status = normalizeStatus(item.status);
+  const firstAlert =
+    item.alerts && item.alerts.length > 0
+      ? item.alerts[0]
+      : "Aucune alerte";
+
+  const div = document.createElement("div");
+  div.className = `timeline-item ${status} new-entry`;
+
+  div.innerHTML = `
+    <div class="timeline-time">${formatValue(item.Heure)}</div>
+    <div class="timeline-patient">Patient ${formatValue(item.ID)}</div>
+
+    <div class="timeline-main">
+      <div class="timeline-med">${formatValue(item.Medicament)}</div>
+      <div class="timeline-admin">Administration : ${formatValue(item.Administration)}</div>
+      <div class="timeline-alert">${firstAlert}</div>
+    </div>
+
+    <div class="timeline-score">Score ${formatValue(item.score)}</div>
+  `;
+
+  setTimeout(() => {
+    div.classList.remove("new-entry");
+  }, 700);
+
+  return div;
+}
 
 function playNextStep() {
   if (currentIndex >= timelineData.length) {
@@ -153,8 +205,12 @@ function playNextStep() {
   const item = timelineData[currentIndex];
   updatePatientPanel(item);
 
+  if ((item.score ?? 0) >= 3) {
+    playCriticalSound(item);
+  }
+
   const timelineItem = createTimelineItem(item);
-  timelineContainer.prepend(timelineItem);
+  timelineContainer.appendChild(timelineItem);
 
   currentIndex++;
 }
@@ -175,6 +231,11 @@ function stopSimulation() {
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+  criticalAlarm = document.getElementById("criticalAlarm");
+
+  document.addEventListener("click", unlockAudio, { once: true });
+  document.addEventListener("keydown", unlockAudio, { once: true });
+
   await loadTimelineData();
 
   if (timelineData.length > 0) {
